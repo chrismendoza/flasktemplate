@@ -12,5 +12,5 @@ else
     tag_number=$2
 fi
 
-docker.exe build -f ./deploy/Dockerfile -t ${tag_name}:${tag_number} .
+docker.exe build --no-cache -f ./deploy/Dockerfile -t ${tag_name}:${tag_number} .
 docker.exe run -d -p 1337:80 ${tag_name}:${tag_number}
