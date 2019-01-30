@@ -8,5 +8,5 @@ RUN pip3 install uwsgi
 COPY ./ ./app
 WORKDIR /app
 
-RUN pip3 install -r ./src/requirements.txt
-CMD service nginx start -c ./deploy/nginx.conf && uwsgi -s 127.0.0.1:4242 --manage-script-name --mount /=src.app:app
+RUN pip3 install -r /app/src/requirements.txt
+CMD service nginx start -c /app/deploy/nginx.conf && uwsgi --socket unix:/app/app.sock --mount /=src.app:app
