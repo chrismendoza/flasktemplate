@@ -5,8 +5,17 @@ RUN apt-get update
 RUN apt-get install -y python3 python3-dev python3-pip nginx
 RUN pip3 install uwsgi
 
-COPY ./ ./app
+#clear the default config so it doesn't conflict listening on 80
+RUN rm /etc/nginx/sites-enabled/default
+
+#establish our site in /app in the container
+COPY ./ /app
 WORKDIR /app
 
+#copy our site config out to the docker image
+RUN cp ./deploy/nginx.conf /etc/nginx/sites-available
+RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
+
 RUN pip3 install -r /app/src/requirements.txt
-CMD service nginx start -c /app/deploy/nginx.conf && uwsgi --socket unix:/app/app.sock --mount /=src.app:app
+
+CMD service nginx start && uwsgi --socket /app/app.sock --mount /=src.app:app --chmod-socket=777
