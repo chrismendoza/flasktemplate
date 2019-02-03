@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.7
 LABEL maintainer="Austin Pets Alive technology volunteers"
 
 RUN apt-get update
@@ -18,4 +18,4 @@ RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.c
 
 RUN pip3 install -r /app/src/requirements.txt
 
-CMD service nginx start && uwsgi --socket /app/app.sock --mount /=src.app:app --chmod-socket=777
+CMD service nginx start && uwsgi --socket /app/app.sock --mount /=src.app:app --chmod-socket=777 --touch-reload=/app/src/app.py
