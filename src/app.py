@@ -1,5 +1,6 @@
-import mysql.connector
+import os
 import json
+import mysql.connector
 
 from flask import Flask, g
 
@@ -11,11 +12,11 @@ def get_db():
         current application context.
     """
     config = {
-        'user': 'root',
-        'password': 'root',
-        'host': 'db',
-        'port': '3306',
-        'database': 'apatest'
+        'user': os.environ.get('MYSQL_USER', ''),
+        'password': os.environ.get('MYSQL_PASSWORD', ''),
+        'host': os.environ.get('MYSQL_HOST', ''),
+        'port': os.environ.get('MYSQL_PORT', ''),
+        'database': os.environ.get('MYSQL_DATABASE', '')
     }
 
     if not hasattr(g, 'mysql_db'):
