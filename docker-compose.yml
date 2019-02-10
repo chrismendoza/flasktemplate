@@ -13,7 +13,6 @@ services:
     ports: 
       - 1337:80
     environment:
-      ENVIRONMENT: 'local'
       MYSQL_HOST: 'db'
       MYSQL_PORT: '3306'
     env_file: ./deploy/local.env.conf
